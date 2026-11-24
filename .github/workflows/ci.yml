@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  remote-smoke:
+    name: windows smoke (remote CI, not device evidence)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Virtual environment smoke test
+        shell: powershell
+        run: |
+          Write-Host "REMOTE CI SMOKE TEST"
+          Write-Host "This job runs on a GitHub-hosted windows-latest runner."
+          Write-Host "It is not a measurement of the investigator's laptop."
+          Write-Host "Do not copy this log into the report as device evidence."
+          powershell -NoProfile -ExecutionPolicy Bypass -File collect\mission3-venv-investigation.ps1 -Smoke
+
+      - name: Unit tests
+        shell: powershell
+        run: |
+          python -m pip install --disable-pip-version-check -r project\requirements-dev.txt
+          Set-Location project
+          python -m pytest tests -q
