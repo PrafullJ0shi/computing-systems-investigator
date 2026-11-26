@@ -106,6 +106,23 @@ pandoc report/REPORT.md -o report/dist/Computing-Systems-Investigator.pdf
 
 PDF output also needs a PDF engine. The DOCX needs only pandoc.
 
+## V2 roadmap
+
+Planned for V2, not shipped. V1 investigates one Windows laptop and one kind of isolation. V2 widens both, and makes the evidence easier to trust for whoever receives it. The safety rules above (no administrator rights, no identifiers collected) apply to every new mission.
+
+1. **macOS and Linux collectors.** The same three missions in POSIX shell, writing the same summary format. *Users:* run the investigation on any laptop.
+2. **Isolation ladder mission.** Run the same probe in `venv`, `uv`, `conda`, `pipx` and a container (Docker or WSL) and tabulate what each one isolates: packages, the interpreter, native libraries, the operating system. *Users:* a measured answer to "which tool do I need", not an opinion.
+3. **PowerShell 7 and Windows on ARM.** Test and support both alongside Windows PowerShell 5.1. *Users:* works on newer machines without changes.
+4. **Evidence integrity manifest.** At collection time, write a hash manifest of every evidence file so a reviewer can check nothing was edited after the run, without the manifest revealing any content. *Reviewers:* trust the numbers in a report.
+5. **Reviewer check script.** Reads a submitted summary and checks it is complete and consistent: required fields present, the prediction timestamp earlier than the run, redaction check passed. *Teachers and reviewers:* minutes per submission instead of a full read.
+6. **Offline HTML report.** A single-file report with charts of the task samples and the environment comparison, built from `summary.md`. *Users:* a report that reads well on any device.
+7. **Redaction as a reusable module.** The path, username, computer-name, MAC and private-IP redaction and its final check, published as a PowerShell module and a Python package. *Developers:* safe diagnostics output in their own scripts.
+8. **Mission plugin format.** A small manifest and contract so new missions (disk, battery, network, startup apps) plug into `run-all.ps1` and the summary. *Developers:* extend the kit without editing the core.
+9. **Device readiness check.** A short pre-course or onboarding run that reports pass or fail against a requirement list (Python version, free disk, memory, virtualisation enabled), with the same privacy rules. *Organisers and IT teams:* find problem laptops before day one. *Revenue:* a paid hosted dashboard that collects opt-in summaries for an organisation; the collectors stay MIT.
+10. **Explain-the-numbers mode.** After each mission, a plain explanation of what was just measured, linked to `docs/CONCEPTS.md`, with a short self-check quiz. *Learners:* understand the result, not only produce it. *Revenue:* a classroom edition with an instructor guide.
+
+**Order.** V2.0: items 1, 2, 4, 5 and 7. V2.1: items 3, 6, 8, 9 and 10.
+
 ## License
 
 MIT. See `LICENSE`.
